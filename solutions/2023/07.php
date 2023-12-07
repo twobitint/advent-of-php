@@ -42,8 +42,8 @@ return new class extends Day
 
     private function compare_hands(string $a, string $b, bool $wilds): int
     {
-        $a_type = $this->hand_type($a, $wilds);
-        $b_type = $this->hand_type($b, $wilds);
+        $a_type = $this->hand_score($a, $wilds);
+        $b_type = $this->hand_score($b, $wilds);
         if ($a_type == $b_type) {
             for ($i = 0; $i < 5; $i++) {
                 if ($a[$i] != $b[$i]) {
@@ -57,14 +57,7 @@ return new class extends Day
         }
     }
 
-    // 0: High Card
-    // 1: One Pair
-    // 2: Two Pairs
-    // 3: Three of a Kind
-    // 4: Full House
-    // 5: Four of a Kind
-    // 6: Five of a Kind
-    private function hand_type(string $hand, bool $wilds): int
+    private function hand_score(string $hand, bool $wilds): int
     {
         $ranks = [];
         foreach (str_split($hand) as $card) {
@@ -74,62 +67,15 @@ return new class extends Day
             $ranks[$card]++;
         }
 
+        $jokers = 0;
         if ($wilds && array_key_exists('J', $ranks)) {
             $jokers = $ranks['J'];
-            unset($ranks['J']);
-            if ($jokers == 4 || $jokers == 5) {
-                return 6;
-            } else if ($jokers == 3) {
-                if (count($ranks) == 2) {
-                    return 5;
-                }
-                return 6;
-            } else if ($jokers == 2) {
-                if (count($ranks) == 3) {
-                    return 3;
-                } else if (count($ranks) == 2) {
-                    return 5;
-                } else if (count($ranks) == 1) {
-                    return 6;
-                }
-            } else if ($jokers == 1) {
-                if (count($ranks) == 4) {
-                    return 1;
-                } else if (count($ranks) == 3) {
-                    return 3;
-                } else if (count($ranks) == 2) {
-                    if (reset($ranks) == 2) {
-                        return 4;
-                    }
-                    return 5;
-                } else if (count($ranks) == 1) {
-                    return 6;
-                }
+            if ($jokers == 5) {
+                return 4;
             }
+            unset($ranks['J']);
         }
 
-        if (count($ranks) == 1) {
-            return 6;
-        } else if (count($ranks) == 2) {
-            foreach ($ranks as $rank => $count) {
-                if ($count == 4) {
-                    return 5;
-                } else if ($count == 3) {
-                    return 4;
-                }
-            }
-        } else if (count($ranks) == 3) {
-            foreach ($ranks as $rank => $count) {
-                if ($count == 3) {
-                    return 3;
-                } else if ($count == 2) {
-                    return 2;
-                }
-            }
-        } else if (count($ranks) == 4) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return max($ranks) + $jokers - count($ranks);
     }
 };
