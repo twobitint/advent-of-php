@@ -1,22 +1,23 @@
 <?php
 
 use twobitint\AdventOfPHP\Day;
+use twobitint\AdventOfPHP\Input;
 
 return new class extends Day
 {
-    public function p1()
+    public function p1(Input $input): int
     {
-        return $this->p(false);
+        return $this->p($input, false);
     }
 
-    public function p2()
+    public function p2(Input $input): int
     {
-        return $this->p(true);
+        return $this->p($input, true);
     }
 
-    private function p($wilds): int
+    private function p(Input $input, $wilds): int
     {
-        $hands = $this->hands();
+        $hands = $this->hands($input);
         usort($hands, fn ($b, $a) => $this->compare_hands($a[0], $b[0], $wilds));
         return $this->score($hands);
     }
@@ -30,10 +31,10 @@ return new class extends Day
         return $total;
     }
 
-    private function hands(): array
+    private function hands(Input $input): array
     {
         $hands = [];
-        foreach (explode("\n", $this->input) as $line) {
+        foreach ($input->lines() as $line) {
             $hands[] = explode(' ', $line);
         }
         return $hands;

@@ -1,13 +1,14 @@
 <?php
 
 use twobitint\AdventOfPHP\Day;
+use twobitint\AdventOfPHP\Input;
 
 return new class extends Day
 {
-    public function p1()
+    public function p1(Input $input): int
     {
         $answer = 0;
-        foreach (explode("\n", $this->input) as $line) {
+        foreach ($input->lines() as $line) {
             list(, $data) = explode(':', $line);
             list($winners, $picks) = explode("|", $data);
             $winners_list = preg_split('/\s+/', $winners, -1, PREG_SPLIT_NO_EMPTY);
@@ -32,12 +33,12 @@ return new class extends Day
         return $answer;
     }
 
-    public function p2()
+    public function p2(Input $input): int
     {
         $answer = 0;
         $n = 0;
         $number_of_cards = [1];
-        foreach (explode("\n", $this->input) as $line) {
+        foreach ($input->lines() as $line) {
             $multiplier = $number_of_cards[$n] ?? 1;
             $answer += $multiplier;
 

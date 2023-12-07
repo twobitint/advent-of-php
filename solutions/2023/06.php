@@ -1,12 +1,13 @@
 <?php
 
 use twobitint\AdventOfPHP\Day;
+use twobitint\AdventOfPHP\Input;
 
 return new class extends Day
 {
-    public function p1()
+    public function p1(Input $input): int
     {
-        list($time_string, $dist_string) = explode("\n", $this->input);
+        list($time_string, $dist_string) = explode("\n", $input);
         preg_match_all('/\d+/', $time_string, $matches);
         $times = $matches[0];
         preg_match_all('/\d+/', $dist_string, $matches);
@@ -30,9 +31,9 @@ return new class extends Day
         return $solution;
     }
 
-    public function p2()
+    public function p2(Input $input): int
     {
-        $this->input = str_replace(' ', '', $this->input);
-        return $this->p1();
+        $input = new Input(str_replace(' ', '', $input));
+        return $this->p1($input);
     }
 };

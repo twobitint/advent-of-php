@@ -15,11 +15,13 @@ class Runner extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $day = $input->getOption('day');
+
+        $input = Input::make($day);
         $solver = include(__DIR__ . '/../solutions/2023/' . $day . '.php');
-        $solver->setDay($day);
         $solver->setOutput($output);
-        $output->writeln($solver->p1());
-        $output->writeln($solver->p2());
+        
+        $output->writeln($solver->p1($input));
+        $output->writeln($solver->p2($input));
 
         return Command::SUCCESS;
     }

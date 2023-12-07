@@ -1,16 +1,17 @@
 <?php
 
 use twobitint\AdventOfPHP\Day;
+use twobitint\AdventOfPHP\Input;
 
 return new class extends Day
 {
 
-    public function p2()
+    public function p2(Input $input): int
     {
         $parts = [];
         $gears = [];
         $y = 0;
-        foreach (explode("\n", $this->input) as $line) {
+        foreach ($input->lines() as $line) {
             preg_match_all('/\*/', $line, $gear_matches, PREG_OFFSET_CAPTURE);
             preg_match_all('/\d+/', $line, $part_matches, PREG_OFFSET_CAPTURE);
 

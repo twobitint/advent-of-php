@@ -1,14 +1,15 @@
 <?php
 
 use twobitint\AdventOfPHP\Day;
+use twobitint\AdventOfPHP\Input;
 
 return new class extends Day
 {
     private array $map;
 
-    public function p1()
+    public function p1(Input $input): int
     {
-        list($seed_string, $map_strings) = explode("\n\n", $this->input, 2);
+        list($seed_string, $map_strings) = explode("\n\n", $input, 2);
         preg_match_all('/\d+/', $seed_string, $seeds);
         $seeds = $seeds[0];
 
@@ -16,9 +17,9 @@ return new class extends Day
         return $this->findLowest($seeds);
     }
 
-    public function p2()
+    public function p2(Input $input): int
     {
-        list($seed_string, $map_strings) = explode("\n\n", $this->input, 2);
+        list($seed_string, $map_strings) = explode("\n\n", $input, 2);
         preg_match_all('/\d+/', $seed_string, $seeds);
         $seeds = $seeds[0];
 

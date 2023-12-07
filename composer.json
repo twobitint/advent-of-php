@@ -2,9 +2,6 @@
     "name": "jtlabak/advent-of-php",
     "description": "twobitint/advent-of-php",
     "autoload": {
-        "files": [
-            "solutions/**/*.php"
-        ],
         "psr-4": {
             "twobitint\\AdventOfPHP\\": "src/"
         }

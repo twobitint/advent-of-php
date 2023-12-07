@@ -6,25 +6,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Day implements Solves
 {
-    public string $input;
-    public OutputInterface $output;
-
-    public function setDay($day)
-    {
-        $this->input = file_get_contents(__DIR__ . "/../input/2023/$day");
-    }
+    protected OutputInterface $output;
 
     public function setOutput(OutputInterface $output)
     {
         $this->output = $output;
     }
 
-    public function p1()
+    public function p1(Input $input): int
     {
         return 0;
     }
 
-    public function p2()
+    public function p2(Input $input): int
     {
         return 0;
     }
