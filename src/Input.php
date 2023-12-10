@@ -2,9 +2,15 @@
 
 namespace twobitint\AdventOfPHP;
 
-class Input {
+use Iterator;
+
+class Input implements Iterator {
     
-    public function __construct(private string $input) {}
+    private array $lines;
+
+    public function __construct(private string $input) {
+        $this->lines = explode("\n", $input);
+    }
 
     public static function make(string $day): self
     {
@@ -19,5 +25,30 @@ class Input {
     public function lines(): array
     {
         return explode("\n", $this->input);
+    }
+
+    public function current(): string
+    {
+        return current($this->lines);
+    }
+
+    public function next(): void
+    {
+        next($this->lines);
+    }
+
+    public function key(): int
+    {
+        return key($this->lines);
+    }
+
+    public function valid(): bool
+    {
+        return key($this->lines) !== null;
+    }
+
+    public function rewind(): void
+    {
+        reset($this->lines);
     }
 }

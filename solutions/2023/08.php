@@ -7,16 +7,13 @@ return new class extends Day {
 
     public function p1(Input $input): int
     {
-        list($instructions, $network_string) = explode("\n\n", $input);
-        $network = $this->network($network_string);
-        return $this->steps($network, $instructions, 'AAA', 'ZZZ');
+        list($instructions, $network) = $this->parse($input);
+        return $this->steps($network, $instructions, 'AAA');
     }
 
     public function p2(Input $input): int
     {
-        list($instructions, $network_string) = explode("\n\n", $input);
-
-        $network = $this->network($network_string);
+        list($instructions, $network) = $this->parse($input);
 
         $lcm = 1;
         foreach (array_keys($network) as $label) {
@@ -26,6 +23,13 @@ return new class extends Day {
         }
 
         return (int)$lcm;
+    }
+
+    protected function parse(Input $input): array
+    {
+        list($instructions, $network_string) = explode("\n\n", $input);
+        $network = $this->network($network_string);
+        return [$instructions, $network];
     }
 
     protected function steps(array $network, string $instructions, string $start): int
