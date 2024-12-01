@@ -16,7 +16,7 @@ class Util {
         }
     }
 
-    public static function rotate_map_90($map)
+    public static function rotate_map_90(array $map): array
     {
         $map = array_values($map);
         $map90 = array();
@@ -27,5 +27,21 @@ class Util {
         }
     
         return $map90;
+    }
+
+    public static function rotate_string_90(string $string): string
+    {
+        $height = substr_count($string, "\n") + 1;
+        $width = strpos($string, "\n");
+        $string = str_replace("\n", '', $string);
+
+        $new = '';
+        for ($x = 0; $x < $width; $x++) {
+            for ($y = $height - 1; $y >= 0; $y--) {
+                $new .= $string[$y * $width + $x];
+            }
+            $new .= "\n";
+        }
+        dd($new);
     }
 }

@@ -14,10 +14,11 @@ class Runner extends Command
 {
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $day = $input->getOption('day');
+        $day = $input->getOption('day') ?? date('d');
+        $year = date('Y');
 
         $input = Input::make($day);
-        $solver = include(__DIR__ . '/../solutions/2023/' . $day . '.php');
+        $solver = include(__DIR__ . '/../solutions/' . $year . '/' . $day . '.php');
         $solver->setOutput($output);
         
         $output->writeln($solver->p1($input));

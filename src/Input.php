@@ -14,7 +14,8 @@ class Input implements Iterator {
 
     public static function make(string $day): self
     {
-        return new self(file_get_contents(__DIR__ . "/../input/2023/$day"));
+        $year = date('Y');
+        return new self(file_get_contents(__DIR__ . "/../input/$year/$day"));
     }
 
     public function __toString(): string
