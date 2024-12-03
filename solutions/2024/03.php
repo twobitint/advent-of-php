@@ -7,34 +7,30 @@ return new class extends Day {
 
     public function p1(Input $input): int
     {
-        return $this->multiply($this->parse($input));
+        return $this->calculate($input);
     }
 
     public function p2(Input $input): int
     {
-        $memory = $this->parse($input);
-        $doChunks = explode("do()", $memory);
-
-        return collect($doChunks)
-            ->reduce(function ($carry, $chunk) {
-                [$doMemory,] = explode("don't()", $chunk);
-                return $carry + $this->multiply($doMemory);
-            }, 0);
+        return $this->calculate($input, false);
     }
 
-    protected function multiply($memory): int
+    protected function calculate(Input $input, bool $always_enabled = true): int
     {
-        preg_match_all('/mul\((\d+),(\d+)\)/', $memory, $matches, PREG_SET_ORDER);
-        
+        $memory = collect($input)->implode('');
+
+        preg_match_all('/mul\((\d+),(\d+)\)|do\(\)|don\'t\(\)/', $memory, $matches, PREG_SET_ORDER);
+
         return collect($matches)
-            ->reduce(fn ($carry, $match)
-                => $carry + $match[1] * $match[2], 0);
-    }
-
-    protected function parse(Input $input): string
-    {
-        return collect($input)
-            ->map(fn($line) => $line)
-            ->implode('');
+            ->reduce(function ($carry, $match) use ($always_enabled, &$enabled) {
+                if ($match[0] == 'do()') {
+                    $enabled = true;
+                } else if ($match[0] == 'don\'t()') {
+                    $enabled = false;
+                } else if ($always_enabled || !isset($enabled) || $enabled) {
+                    $carry += $match[1] * $match[2];
+                }
+                return $carry;
+            }, 0);
     }
 };
