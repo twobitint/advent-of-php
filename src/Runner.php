@@ -17,12 +17,13 @@ class Runner extends Command
         $day = $input->getOption('day') ?? date('d');
         $year = date('Y');
 
-        $input = Input::make($day);
-        $solver = include(__DIR__ . '/../solutions/' . $year . '/' . $day . '.php');
-        $solver->setOutput($output);
-        
-        $output->writeln($solver->p1($input));
-        $output->writeln($solver->p2($input));
+        $input = file_get_contents(__DIR__ . '/../input/' . $year . '/' . $day);
+
+        require_once __DIR__ . '/helpers.php';
+        require __DIR__ . '/../solutions/' . $year . '/' . $day . '.php';
+
+        $output->writeln(\p1($input));
+        $output->writeln(\p2($input));
 
         return Command::SUCCESS;
     }

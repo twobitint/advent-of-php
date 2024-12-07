@@ -3,7 +3,20 @@
 use twobitint\AdventOfPHP\Day;
 use twobitint\AdventOfPHP\Input;
 
-return new class extends Day {
+function p1(string $input): int
+{
+    $input = new Input($input);
+    $d = new Day3();
+    return $d->p1($input);
+}
+function p2(string $input): int
+{
+    $input = new Input($input);
+    $d = new Day3();
+    return $d->p2($input);
+}
+
+class Day3 extends Day {
 
     public function p1(Input $input): int
     {
