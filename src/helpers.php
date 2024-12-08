@@ -10,8 +10,25 @@ function mapify(string $input): array
     return $map;
 }
 
-function print_map(array $map, array $center, int $dist): void
+function map_iter(array $map, Callable $callback): void
 {
+    for ($y = 0; $y < count($map); $y++) {
+        for ($x = 0; $x < count($map[$y]); $x++) {
+            $callback($map[$y][$x], $x, $y);
+        }
+    }
+}
+
+function print_map(array $map, array $center = null, int $dist = null): void
+{
+    if (! $center) {
+        $center = [floor(count($map[0]) / 2), floor(count($map) / 2)];
+    }
+
+    if (! $dist) {
+        $dist = max($center[0], $center[1]);
+    }
+
     foreach (array_slice($map, $center[1] - $dist, $dist * 2 + 1) as $line) {
         $write = '';
         foreach (array_slice($line, $center[0] - $dist, $dist * 2 + 1) as $char) {
